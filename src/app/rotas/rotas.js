@@ -72,4 +72,12 @@ module.exports = (app) => {
     });
 
 
+    app.delete('/livros/:id', function(req, resp) {
+        const id = req.parms.id;
+
+        const livroDao = new LivroDao(db);
+        livroDao.remove(id)
+                .then(() => resp.status(200).end())
+                .catch(erro => console.log(erro));
+    });
 };
