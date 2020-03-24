@@ -19,8 +19,10 @@
   "homepage": "https://github.com/watanabe-alex/casadocodigo#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "marko": "^4.19.8",
+    "method-override": "^3.0.0",
     "sqlite3": "^4.1.1"
   },
   "devDependencies": {
