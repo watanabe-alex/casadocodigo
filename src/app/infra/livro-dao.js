@@ -4,28 +4,28 @@ class LivroDao {
         this._db = db;
     }
 
-    adiciona(livro) {
+    adiciona(livro){
         return new Promise((resolve, reject) => {
-            this._db.run(`
-                INSERT INTO livros (
-                    titulo, 
+            this._db.run(
+                `INSERT INTO livros(
+                    titulo,
                     preco,
                     descricao
-                ) values (?,?,?)
-                `,
+                ) values(?,?,?)`,
                 [
                     livro.titulo,
-                    livro.preco,
+                    livro. preco,
                     livro.descricao
                 ],
-                function (err) {
-                    if (err) {
+                function(err){
+                    if(err){
                         console.log(err);
                         return reject('Não foi possível adicionar o livro!');
+                    } else {
+                        resolve();
                     }
-
-                    resolve();
                 }
+
             )
         });
     }
@@ -35,17 +35,19 @@ class LivroDao {
             this._db.all(
                 'SELECT * FROM livros',
                 (erro, resultados) => {
-                    if (erro) return reject('Não foi possível listar os livros!');
-
-                    return resolve(resultados);
+                    if (erro) {
+                        return reject("Não foi possível listar os livros!");
+                    } else {
+                        return resolve(resultados);
+                    }
                 }
             )
-        });
+        })
+        
     }
 
     buscaPorId(id) {
-
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve,reject) => {
             this._db.get(
                 `
                     SELECT *
@@ -56,14 +58,15 @@ class LivroDao {
                 (erro, livro) => {
                     if (erro) {
                         return reject('Não foi possível encontrar o livro!');
+                    } else {
+                        return resolve(livro);
                     }
-                    return resolve(livro);
                 }
-            );
-        });
+            )
+        })
     }
 
-    atualiza(livro) {
+    atualiza(livro){
         return new Promise((resolve, reject) => {
             this._db.run(`
                 UPDATE livros SET
@@ -81,9 +84,9 @@ class LivroDao {
             erro => {
                 if (erro) {
                     return reject('Não foi possível atualizar o livro!');
+                } else {
+                    resolve();
                 }
-
-                resolve();
             });
         });
     }
@@ -91,7 +94,7 @@ class LivroDao {
     remove(id) {
 
         return new Promise((resolve, reject) => {
-            this._db.get(
+            this._db.run(
                 `
                     DELETE 
                     FROM livros
@@ -101,12 +104,14 @@ class LivroDao {
                 (erro) => {
                     if (erro) {
                         return reject('Não foi possível remover o livro!');
+                    } else {
+                        resolve();
                     }
-                    return resolve();
                 }
             );
         });
     }
+
 }
 
 module.exports = LivroDao;
