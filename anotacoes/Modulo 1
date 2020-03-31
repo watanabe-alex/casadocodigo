@@ -1,0 +1,58 @@
+Aula 1 - Node.js Parte 1: Inovando com JavaScript no backend
+
+Começar uma aplicação transformando no tipo Node, comando: npm init (o inicializador do node package manager, que é o gerenciador de pacotes do Node)
+Instalar a dependência express que arruma a questão das rotas, comando: npm install express --save.
+ 
+Aula 2 - Express e templates com Marko
+
+A pasta "node_modules" contém todas as dependências listadas no arquivo package.json.
+Assim ao clonar um projeto, basta executar o comando npm install no terminal do sistema operacional. Esse comando irá procurar um arquivo package.json dentro da pasta, lendo-o e baixando todas as dependências do projeto, criando novamente a pasta "node_modules".
+Cada arquivo deve ter uma função separada (única).
+Módulo nodemon que reinicia o servidor sempre que houve alguma alteração nos arquivos, comando para instalar: npm install nodemon --save-dev (salva a dependência somente para desenvolvedores).
+Na parte “script” do package.json tem o comando que ele roda ao dar npm start, e para utilizarmos o nodemon, teremos que alterar o valor da variável “start” para “nodemon server.js”.
+Usaremos o marko.js, bastante conhecido no mundo Node, que serve para gerar templates HTML. Inclusive, ele funciona muito bem com o express, comando: npm install marko --save
+Para habilitarmos essa biblioteca na nossa aplicação, precisaremos adicionar duas linhas de código:
+require('marko/node-require').install();
+require('marko/express');
+ 
+Aula 3 - Persistência de dados
+
+
+Arquitetura DAO: Na verdade é MVC-DAO, onde teremos o M, o V, o C e o DAO (que tem tudo de SQL lá). As outras não tem SQL.
+
+Aula 4 - Manipulando a requisição com Middlewares
+
+ Middlewares funcionam como filtros. Body-parser é o módulo do Node que nos ajudará nessa tarefa.
+npm install body-parser --save
+
+Aula 5 - Evoluindo a aplicação
+
+Dataset API foi criada para poder associar alguns dados ao elemento html, bastando, para isso, utilizar os atributos data-*!
+ 
+<div id="usuario" data-id="12345" data-usuario="gabriel.leite">
+     Gabriel Leite
+</div>
+
+//no java
+const elemento = document.querySelector('#usuario');
+console.log(elemento.dataset.id);  // '12345'
+console.log(elemento.dataset.usuario);  // 'gabriel.leite'
+
+Criar uma pasta public dentro de app para poder referenciar a arquivo estáticos e habilitar cors (perigoso! segurança):
+
+//antes tem que instalar o cors
+var cors = require('cors');
+app.use(cors());
+app.use('/estatico', express.static('src/app/public')); //middleware para acesso a arquivo estáticos
+
+Middleware method-override (tem que instalar) para fazer a alteração do método quando for adicionar novo ou quando for atualizar no form
+ 
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride(function (req, res) {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method
+    delete req.body._method
+    return method
+  }
+}));
