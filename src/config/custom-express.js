@@ -1,10 +1,14 @@
 require('marko/node-require').install();
 require('marko/express');
 
+const cors = require('cors');
+
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+
+app.use(cors());
 
 app.use('/estatico', express.static('src/app/public'));
 

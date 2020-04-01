@@ -1,3 +1,5 @@
+const templates = require('../views/templates');
+
 class BaseControlador {
     
     //para facitiliar manutenção dos nomes da rotas
@@ -10,7 +12,7 @@ class BaseControlador {
     home() {
         return function(req, resp) {
             resp.marko(
-                require('../views/base/home/home.marko')
+                templates.base.home
             );
         };
     }
