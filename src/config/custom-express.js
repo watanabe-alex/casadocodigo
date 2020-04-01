@@ -1,14 +1,12 @@
 require('marko/node-require').install();
 require('marko/express');
 
-const cors = require('cors');
-
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
-app.use(cors());
+const templates = require('../app/views/templates');
 
 app.use('/estatico', express.static('src/app/public'));
 
@@ -30,18 +28,16 @@ sessaoAutenticacao(app);
 const rotas = require('../app/rotas/rotas');
 rotas(app);
 
-//middleware para erro 404
-app.use(function(req,resp,next){
-  return resp.status(404).marko(
-    require('../app/views/base/erros/404.marko')
-  );
+app.use(function (req, resp, next) {
+    return resp.status(404).marko(
+        templates.base.erro404
+    );
 });
 
-//middleware para erro 500
-app.use(function(erro, req, resp,next){
-  return resp.status(500).marko(
-    require('../app/views/base/erros/500.marko')
-  );
+app.use(function (erro, req, resp, next) {
+    return resp.status(500).marko(
+        templates.base.erro500
+    );
 });
 
 module.exports = app;
